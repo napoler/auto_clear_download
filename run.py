@@ -14,7 +14,13 @@ tmp_type=('.aria2', '.qt', '.torrent')
 def get_FileSize(filePath):
     '''获取文件的大小,结果保留两位小数，单位为MB'''
     # filePath = unicode(filePath,'utf8')
-    fsize = os.path.getsize(filePath)
+    try:
+        fsize = os.path.getsize(filePath)
+
+    except :
+        return
+        pass   
+    
     fsize = fsize/float(1024*1024)
     return round(fsize,2)
 # def get_FileModifyTime(filePath):
@@ -29,7 +35,13 @@ def get_filetime(filePath):
     距离当前的时间
     单位小时
     """
-    file_time = os.path.getatime(filePath)
+    try:
+        file_time = os.path.getatime(filePath)
+        pass
+    except :
+        return
+        pass
+
     timestamp=time.time()-file_time
     # print(timestamp/(60*60))
 
