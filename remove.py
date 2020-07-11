@@ -10,7 +10,7 @@ import shutil
 """
 limit_size=100 #MB 限制最小视频大小
 video_type=('.mp4', '.mkv', '.avi', '.wmv', '.iso')
-tmp_type=('.aria2', '.\Qt', '.torrent')
+tmp_type=('.aria2', '.qt', '.torrent')
 def get_FileSize(filePath):
     '''获取文件的大小,结果保留两位小数，单位为MB'''
     # filePath = unicode(filePath,'utf8')
@@ -52,33 +52,16 @@ def get_filetime(filePath):
 def main():
     #    rpath=raw_input("输入目录：")
     rpath="/mnt/c/transmission/aria"
-    f2 = open("/mnt/b/clear/remove.txt","r")
-    rlist = f2.readlines()
+    # f2 = open("/mnt/b/clear/remove.txt","r")
+    # rlist = f2.readlines()
     rn=[]
     for pathname,dirnames,filenames in os.walk(rpath):
         for filename in filenames:
             file=os.path.join(pathname,filename)
-            print(file)
-            get_filetime(file)
-            size=get_FileSize(file)
-            print(size,'M')
-            #清理过小的视频文件
-            if file.endswith(video_type) and size < limit_size:
-                print("过小视频",size)
-                print("删除")
-                rn.append(file)
-                os.remove(file)
-            #清理时间过长的aria2和qt下载文件等等
-            timestamp=get_filetime(file)
-            if file.endswith(tmp_type) and timestamp>24*10:
-                print("时间过久的临时文件",timestamp)
-                print("删除")
-                rn.append(file)
-
+            
+            if file.endswith(".aria2"):
                 new_file=file.replace(".aria2",'')
                 os.remove(file)
-                rn.append(new_file)
-                清理对应的文件
                 try:
                     os.remove(new_file)
                     pass
@@ -87,28 +70,13 @@ def main():
                     pass
                 try:
                     shutil.rmtree(new_file)
-                    
                     pass
                 except:
-                    pass   
-
-            for it in rlist:
-                it=it.replace("\n", "")
-                #print(it,file)
-                #print(str(it) in  str(file))
-                if it in  str(file):
-                    print("删除")
-                    try:
-                        rn.append(file)
-                        os.remove(file)
-                    except:
-                        pass
-   
-                    break
-                else:
-                    #print("忽略")
                     pass
-            # os.remove(file)
+                
+                rn.append(file)
+                rn.append(new_file)
+
     print("删除：",rn)
     print("共计删除：",len(rn))
 if __name__=='__main__':
