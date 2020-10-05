@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# put this file to /etc/cron.daily/ 
+# chmod +X auto_clear
+python /mnt/b/clear/run.py

@@ -78,7 +78,7 @@ def main():
                 new_file=file.replace(".aria2",'')
                 os.remove(file)
                 rn.append(new_file)
-                清理对应的文件
+                #清理对应的文件
                 try:
                     os.remove(new_file)
                     pass
