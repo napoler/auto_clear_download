@@ -54,7 +54,7 @@ def main():
     rpaths=["/data/pic","/data/downloads","/data/rss","/data/Anime"]
     rn=[]
     for rpath in rpaths:
-        f2 = open("./remove.txt","r")
+        f2 = open("/data/bt/auto_clear_download/remove.txt","r")
         rlist = f2.readlines()
 
         for pathname,dirnames,filenames in os.walk(rpath):
