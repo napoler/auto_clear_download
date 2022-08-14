@@ -8,6 +8,7 @@ import shutil
 自动清理目录里的拉圾内容
 自动清理十天未下载完成的任务
 """
+max_limit_size=2048 #MB 限制最小视频大小 2g 不做删除 ，但是可以用来保存
 limit_size=10 #MB 限制最小视频大小
 video_type=('.mp4', '.mkv', '.avi', '.wmv', '.iso')
 tmp_type=('.aria2', '.\Qt','.!qB', '.torrent')
@@ -53,6 +54,7 @@ def main():
     #    rpath=raw_input("输入目录：")
     rpaths=["/data/pic","/data/downloads","/data/rss","/data/Anime"]
     rn=[]
+    big_files=[]
     for rpath in rpaths:
         f2 = open("/data/bt/auto_clear_download/remove.txt","r")
         rlist = f2.readlines()
@@ -63,6 +65,8 @@ def main():
                 print(file)
                 get_filetime(file)
                 size=get_FileSize(file)
+                if size>2048:
+                    big_files.append(f"{size}MB\t{file}")
                 print(size,'M')
                 #清理过小的视频文件
                 if file.endswith(video_type) and size < limit_size:
@@ -111,7 +115,12 @@ def main():
                         #print("忽略")
                         pass
                 # os.remove(file)
+
     print("删除：",rn)
     print("共计删除：",len(rn))
+
+    print("big_files")
+    with open("/data/bt/auto_clear_download/big_files.txt", "w") as f:
+        f.write("\n".join(big_files))
 if __name__=='__main__':
     main()
