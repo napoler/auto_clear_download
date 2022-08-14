@@ -120,6 +120,7 @@ def main():
     print("共计删除：",len(rn))
 
     print("big_files")
+    print(big_files)
     with open("/data/bt/auto_clear_download/big_files.txt", "w") as f:
         f.write("\n".join(big_files))
 if __name__=='__main__':
