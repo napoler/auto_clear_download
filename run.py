@@ -10,7 +10,7 @@ import shutil
 """
 limit_size=100 #MB 限制最小视频大小
 video_type=('.mp4', '.mkv', '.avi', '.wmv', '.iso')
-tmp_type=('.aria2', '.\Qt', '.torrent')
+tmp_type=('.aria2', '.\Qt','.!qB', '.torrent')
 def get_FileSize(filePath):
     '''获取文件的大小,结果保留两位小数，单位为MB'''
     # filePath = unicode(filePath,'utf8')
@@ -19,8 +19,8 @@ def get_FileSize(filePath):
 
     except :
         return
-        pass   
-    
+        pass
+
     fsize = fsize/float(1024*1024)
     return round(fsize,2)
 # def get_FileModifyTime(filePath):
@@ -83,14 +83,14 @@ def main():
                     os.remove(new_file)
                     pass
                 except:
-                    
+
                     pass
                 try:
                     shutil.rmtree(new_file)
-                    
+
                     pass
                 except:
-                    pass   
+                    pass
 
             for it in rlist:
                 it=it.replace("\n", "")
@@ -103,7 +103,7 @@ def main():
                         os.remove(file)
                     except:
                         pass
-   
+
                     break
                 else:
                     #print("忽略")
