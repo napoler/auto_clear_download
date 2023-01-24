@@ -32,19 +32,25 @@ def create_video_filter(orig_file_name):
     return video_filter, file_data['streams'][0]
 
 
-def create_new_file_name(orig_file_name):
+def create_new_file_name(orig_file_name,    ffmpeg_args={
+    'ab': 128,  # audio bitrate is 128kbps by default
+    'vb': 2048,  # video bitrate is 800K by default
+}):
     # check to see if search/replace parameters have been passed
-    if ('file-search' in params.keys() and 'file-replace' in params.keys()):
-        s = params['file-search']
-        p = re.compile(s)
-        print('p => %s' % p.pattern)
-        replace = params['file-replace']
-        result = re.sub(p, replace, orig_file_name)
-        # print("result", result)
-        # replace spaces with hyphens
-        file_name = result.replace(' ', '-')
-    else:
-        file_name = orig_file_name
+    try:
+        if ('file-search' in params.keys() and 'file-replace' in params.keys()):
+            s = params['file-search']
+            p = re.compile(s)
+            print('p => %s' % p.pattern)
+            replace = params['file-replace']
+            result = re.sub(p, replace, orig_file_name)
+            # print("result", result)
+            # replace spaces with hyphens
+            file_name = result.replace(' ', '-')
+        else:
+            file_name = orig_file_name
+    except:
+        pass
     try:
         print("result", result)
         if '.mp4' not in result:
@@ -58,11 +64,11 @@ def create_new_file_name(orig_file_name):
     return file_name
 
 
-def convert_file(orig_file_name):
+def convert_file(orig_file_name, ffmpeg_args):
     orig_file_ext = orig_file_name.split('.')[-1]
     print("\n\n\n\n")
     print("Starting to convert %s..." % orig_file_name)
-    new_file_name = create_new_file_name(orig_file_name)
+    new_file_name = create_new_file_name(orig_file_name, ffmpeg_args)
     print("new_file_name: %s" % new_file_name)
 
     # vb = ffmpeg_args['vb']
@@ -193,4 +199,4 @@ if __name__ == "__main__":
         exit()
 
     for file_to_convert in files_to_convert:
-        convert_file(file_to_convert)
+        convert_file(file_to_convert, ffmpeg_args)
