@@ -58,11 +58,11 @@ def get_filetime(filePath):
 
 
 def main(
-    rpath="",
-    ffmpeg_args={
-        'ab': 128,  # audio bitrate is 128kbps by default
-        'vb': 2048,  # video bitrate is 800K by default
-    }):
+        rpath="",
+        ffmpeg_args={
+            'ab': 128,  # audio bitrate is 128kbps by default
+            'vb': 2048,  # video bitrate is 800K by default
+        }):
     rn = []
     for pathname, dirnames, filenames in os.walk(rpath):
         for filename in tqdm(filenames):
@@ -95,6 +95,7 @@ if __name__ == '__main__':
     ]
     # rpaths = ["/data/pjav/test/"]
     random.shuffle(rpaths)
-
-    for rpath in rpaths:
-        main(rpath, ffmpeg_args)
+    while True:
+        for rpath in rpaths:
+            main(rpath, ffmpeg_args)
+        time.sleep(60*60*24)

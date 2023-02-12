@@ -90,7 +90,8 @@ def convert_file(orig_file_name, ffmpeg_args):
     avg_frame_rate = int(avg_frame_rate_arg[0])/int(avg_frame_rate_arg[1])
     print("avg_frame_rate", avg_frame_rate)
 
-    if (int(stream['bit_rate']) <= ffmpeg_args['vb']*1024 or stream['coded_width'] <= 1280) and avg_frame_rate < 30:
+    # if (int(stream['bit_rate']) <= ffmpeg_args['vb']*1024 or stream['coded_width'] <= 1280) and avg_frame_rate < 30:
+    if int(stream['bit_rate']) <= ffmpeg_args['vb']*1024 and avg_frame_rate < 30:
         print("small file auto end:")
         return
 
