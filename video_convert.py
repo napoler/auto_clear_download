@@ -64,7 +64,7 @@ def create_new_file_name(orig_file_name,    ffmpeg_args={
     return file_name
 
 
-def convert_file(orig_file_name, ffmpeg_args):
+def convert_file(orig_file_name, ffmpeg_args,test=False):
     orig_file_ext = orig_file_name.split('.')[-1]
     print("\n\n\n\n")
     print("Starting to convert %s..." % orig_file_name)
@@ -93,7 +93,9 @@ def convert_file(orig_file_name, ffmpeg_args):
     # if (int(stream['bit_rate']) <= ffmpeg_args['vb']*1024 or stream['coded_width'] <= 1280) and avg_frame_rate < 30:
     if int(stream['bit_rate']) <= ffmpeg_args['vb']*1024 and avg_frame_rate < 30:
         print("small file auto end:")
-        return
+        return False
+    if test==True:
+        return True
 
         # create the command to convert the file
     # command = 'ffmpeg -i "%s" %s  -acodec aac -strict -2 -ab %sk -ar 44100 -vcodec h264 -vb %sK  -preset ultrafast  -pix_fmt yuv420p  -crf 23  -maxrate 1M -bufsize 2M  "%s" ' % (

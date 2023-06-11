@@ -76,8 +76,11 @@ def main(
             size = get_FileSize(file)
             # print(size, 'M')
             # 清理过小的视频文件
-            if file.endswith(video_type):
-                files.append(file)
+            try:
+                if file.endswith(video_type) and convert_file(file, ffmpeg_args,test=True)==True:
+                    files.append(file)
+            except:
+                pass
     random.shuffle(files)
     # 执行转码
     for file in tqdm(files):
