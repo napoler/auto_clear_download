@@ -64,23 +64,30 @@ def main(
             'vb': 2048,  # video bitrate is 800K by default
         }):
     rn = []
+    files=[]
     for pathname, dirnames, filenames in os.walk(rpath):
+
+
         for filename in tqdm(filenames):
+
             file = os.path.join(pathname, filename)
             # print(file)
-            get_filetime(file)
+            # get_filetime(file)
             size = get_FileSize(file)
             # print(size, 'M')
             # 清理过小的视频文件
             if file.endswith(video_type):
-                load1, load5, load15 = os.getloadavg()
-                while load1 > 50:
-                    time.sleep(100)
-
-                try:
-                    convert_file(file, ffmpeg_args)
-                except:
-                    pass
+                files.append(file)
+    random.shuffle(files)
+    # 执行转码
+    for file in tqdm(files):
+        load1, load5, load15 = os.getloadavg()
+        while load1 > 50:
+            time.sleep(100)
+        try:
+            convert_file(file, ffmpeg_args)
+        except:
+            pass
 
 
 if __name__ == '__main__':
