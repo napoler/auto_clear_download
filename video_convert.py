@@ -88,20 +88,23 @@ def convert_file(orig_file_name, ffmpeg_args,test=False):
 
     avg_frame_rate_arg = stream['avg_frame_rate'].split("/")
     avg_frame_rate = int(avg_frame_rate_arg[0])/int(avg_frame_rate_arg[1])
-    print("avg_frame_rate", avg_frame_rate)
+    # print("avg_frame_rate", avg_frame_rate)
 
     # if (int(stream['bit_rate']) <= ffmpeg_args['vb']*1024 or stream['coded_width'] <= 1280) and avg_frame_rate < 30:
     if int(stream['bit_rate']) <= ffmpeg_args['vb']*1024 and avg_frame_rate < 30:
-        print("small file auto end:")
+        # print("small file auto end:")
         return False
     if test==True:
         return True
 
+    vb=ffmpeg_args['vb']*0.95
+    vb=min(vb,950)
         # create the command to convert the file
     # command = 'ffmpeg -i "%s" %s  -acodec aac -strict -2 -ab %sk -ar 44100 -vcodec h264 -vb %sK  -preset ultrafast  -pix_fmt yuv420p  -crf 23  -maxrate 1M -bufsize 2M  "%s" ' % (
     #     orig_file_name, video_filter, ffmpeg_args['ab'], ffmpeg_args['vb'], new_file_name)
     command = 'ffmpeg -i "%s" %s  -acodec aac -strict -2 -ab %sk -ar 44100 -vcodec h264 -vb %sK  -preset fast  -pix_fmt yuv420p  -crf 25  -maxrate 4M -bufsize 4M -r 23.976 "%s" ' % (
-        orig_file_name, video_filter, ffmpeg_args['ab'], ffmpeg_args['vb'], new_file_name)
+        orig_file_name, video_filter, ffmpeg_args['ab'], vb, new_file_name)
+    
     # command = 'ffmpeg -i "%s" %s  -acodec aac -strict -2 -ab %sk -ar 44100  -c:v libx265  -vb %sK  -preset fast  -pix_fmt yuv420p  -crf 30  -maxrate 4M -bufsize 4M -r 23.976 "%s" ' % (
     #     orig_file_name, video_filter, ffmpeg_args['ab'], ffmpeg_args['vb'], new_file_name)
 

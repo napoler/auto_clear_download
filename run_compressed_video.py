@@ -67,9 +67,9 @@ def main(
     files=[]
     for pathname, dirnames, filenames in os.walk(rpath):
 
-
+        random.shuffle(filenames)
         for filename in tqdm(filenames):
-
+            
             file = os.path.join(pathname, filename)
             # print(file)
             # get_filetime(file)
@@ -78,25 +78,36 @@ def main(
             # 清理过小的视频文件
             try:
                 if file.endswith(video_type) and convert_file(file, ffmpeg_args,test=True)==True:
+                    print(f"adding video:{file}")
                     files.append(file)
+                    ## # 执行转码
+                    load1, load5, load15 = os.getloadavg()
+                    while load1 > 50:
+                        time.sleep(100)
+                    try:
+                        convert_file(file, ffmpeg_args)
+                    except:
+                        pass
+                    break
             except:
                 pass
-    random.shuffle(files)
-    # 执行转码
-    for file in tqdm(files):
-        load1, load5, load15 = os.getloadavg()
-        while load1 > 50:
-            time.sleep(100)
-        try:
-            convert_file(file, ffmpeg_args)
-        except:
-            pass
+    # random.shuffle(files)
+    # # 执行转码
+    # exit()
+    # for file in tqdm(files):
+    #     load1, load5, load15 = os.getloadavg()
+    #     while load1 > 50:
+    #         time.sleep(100)
+    #     try:
+    #         convert_file(file, ffmpeg_args)
+    #     except:
+    #         pass
 
 
 if __name__ == '__main__':
     ffmpeg_args = {
         'ab': 128,  # audio bitrate is 128kbps by default
-        'vb': 2048,  # video bitrate is 800K by default
+        'vb': 1024,  # video bitrate is 800K by default
     }
     params = {}
     rpaths = [
