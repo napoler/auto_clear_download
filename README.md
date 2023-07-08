@@ -9,4 +9,4 @@ remove.txt 文件逐行写入匹配关键词，一行一个
 python run.py
 
 
-
+nohup python3 run_compressed_video.py > ../run_compressed_video.py.log 2>&1 &
